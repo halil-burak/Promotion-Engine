@@ -6,7 +6,7 @@ import com.promotion_engine.promotion.SingleProductGroupPromotion;
 import com.promotion_engine.service.PromotionService;
 import com.promotion_engine.service.PromotionServiceImpl;
 import com.promotion_engine.util.PromotionUtil;
-import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
@@ -28,6 +28,11 @@ public class PromotionTest {
         promotionService = new PromotionServiceImpl();
         promotions = PromotionUtil.setupPromotions();
         cart = new Cart();
+    }
+
+    @AfterAll
+    public static void teardown() {
+        cart.getContents().clear();
     }
 
     @Test

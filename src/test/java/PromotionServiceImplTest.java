@@ -66,4 +66,32 @@ public class PromotionServiceImplTest {
         Double checkoutPrice = promotionService.getPromotedPrice(cart, promotions);
         assertEquals(370.0, checkoutPrice);
     }
+
+    @Test
+    public void testBundlePromotionAppliedOnCartTwoTimes() {
+        Map<Product, Integer> testContents = new HashMap<>();
+        testContents.put(productC, 2);
+        testContents.put(productD, 2);
+        cart.setContents(testContents);
+        Double checkoutPrice = promotionService.getPromotedPrice(cart, promotions);
+        assertEquals(60.0, checkoutPrice);
+    }
+
+    @Test
+    public void testSingleProductGroupingPromotionAppliedOnCartTwoTimes() {
+        Map<Product, Integer> testContents = new HashMap<>();
+        testContents.put(productA, 6);
+        cart.setContents(testContents);
+        Double checkoutPrice = promotionService.getPromotedPrice(cart, promotions);
+        assertEquals(260.0, checkoutPrice);
+    }
+
+    @Test
+    public void testSingleProductGroupingPromotionAppliedOnCartTwoTimesAndOneWithoutPromotion() {
+        Map<Product, Integer> testContents = new HashMap<>();
+        testContents.put(productA, 7);
+        cart.setContents(testContents);
+        Double checkoutPrice = promotionService.getPromotedPrice(cart, promotions);
+        assertEquals(310.0, checkoutPrice);
+    }
 }

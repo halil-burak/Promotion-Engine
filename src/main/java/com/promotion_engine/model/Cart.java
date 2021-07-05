@@ -51,4 +51,18 @@ public class Cart {
             temp.put(productOut, quantity);
         return temp;
     }
+
+    /**
+     * Returns product entry from the cart by product name, if it does exist
+     * @param item
+     * @return
+     */
+    public Product getEntryByItemName(String item) {
+        for (Map.Entry<Product, Integer> kv: contents.entrySet()) {
+            if (kv.getKey().getName().equalsIgnoreCase(item)) {
+                return kv.getKey();
+            }
+        }
+        return null;
+    }
 }

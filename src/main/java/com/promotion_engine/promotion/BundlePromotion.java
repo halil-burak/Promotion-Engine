@@ -2,6 +2,7 @@ package com.promotion_engine.promotion;
 
 import com.promotion_engine.model.Cart;
 import com.promotion_engine.model.Product;
+import com.promotion_engine.util.PriceList;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -18,9 +19,30 @@ public class BundlePromotion implements Promotion {
         this.promotedPrice = promotedPrice;
     }
 
+    /**
+     * Applies the bundle promotion to a cart and adjusts the cart contents once applied
+     * @param cart
+     * @return
+     */
     @Override
     public Cart applyPromotion(Cart cart) {
-        return null;
+        if(!isAvailable(cart)) {
+            System.out.println("There is no available item in this cart.");
+        }
+
+        Cart promotedCart = new Cart(cart.getContents());
+        Map<Product, Integer> cartContents = new HashMap<>(cart.getContents());
+
+        for(String item: appliedItems){
+            if(promotedCart.getQuantity(item)==1) {
+                cartContents.remove(promotedCart.getEntryByItemName(item));
+            }
+            else {
+                cartContents.putAll(promotedCart.adjustInventory(item,promotedCart.getQuantity(item)-1));
+            }
+        }
+        promotedCart.setContents(cartContents);
+        return promotedCart;
     }
 
     /*
@@ -38,8 +60,16 @@ public class BundlePromotion implements Promotion {
         return availabilityCheckMap.containsValue(true);
     }
 
+    /**
+     * Returns the discounted price after promotion applied
+     * @return
+     */
     @Override
     public Double getDiscountedPrice() {
-        return null;
+        double itemPrice = 0.0;
+        for(String sku: appliedItems)
+            itemPrice += PriceList.getPrice(sku);
+
+        return itemPrice - this.promotedPrice;
     }
 }

@@ -22,20 +22,28 @@ public class Cart {
     }
 
     public Integer getQuantity(String itemName){
-        for(Map.Entry<Product, Integer> kv: this.contents.entrySet()){
-            if(kv.getKey().getName().equalsIgnoreCase(itemName))
+        for (Map.Entry<Product, Integer> kv: this.contents.entrySet()) {
+            if (kv.getKey().getName().equalsIgnoreCase(itemName)) {
                 return kv.getValue();
+            }
         }
         return 0;
     }
 
     public Map<Product, Integer> removeItem(String itemToRemove) {
-        for (Map.Entry<Product, Integer> kv: contents.entrySet()) {
+        Product productToRemove = null;
+        Map<Product, Integer> temp = new HashMap<>();
+        temp.putAll(this.contents);
+
+        for (Map.Entry<Product, Integer> kv: temp.entrySet()) {
             if (kv.getKey().getName().equalsIgnoreCase(itemToRemove)) {
-                contents.remove(kv.getKey());
+                productToRemove = kv.getKey();
             }
         }
-        return this.contents;
+        if (itemToRemove != null) {
+            temp.remove(productToRemove);
+        }
+        return temp;
     }
 
     public Map<Product, Integer> adjustInventory(String itemName, Integer quantity) {
@@ -43,12 +51,14 @@ public class Cart {
         Map<Product, Integer> temp = new HashMap<>();
         temp.putAll(this.contents);
 
-        for(Map.Entry<Product, Integer> kv: temp.entrySet()){
-            if(kv.getKey().getName().equalsIgnoreCase(itemName))
+        for (Map.Entry<Product, Integer> kv: temp.entrySet()) {
+            if (kv.getKey().getName().equalsIgnoreCase(itemName)) {
                 productOut = kv.getKey();
+            }
         }
-        if(null != productOut)
+        if (null != productOut) {
             temp.put(productOut, quantity);
+        }
         return temp;
     }
 

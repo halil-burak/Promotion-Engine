@@ -60,6 +60,7 @@ public class PromotionServiceImpl implements PromotionService {
         // Subtract the discounted price from the cart price since promotion was applied.
         checkoutPrice = checkoutPrice - discountedPrice;
         // Recursive call to apply all available promotions on cart
+        // Cart contents should be properly reduced so that the recursion loop will not occur.
         return applyPromotions(promotedCart, availablePromotions, checkoutPrice);
     }
 }

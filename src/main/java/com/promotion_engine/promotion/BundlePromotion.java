@@ -57,7 +57,8 @@ public class BundlePromotion implements Promotion {
                 availabilityCheckMap.put(kv.getKey().getName(), true);
             }
         }
-        return availabilityCheckMap.containsValue(true);
+        // todo: make sure all applied items occur in the cart.
+        return !availabilityCheckMap.containsValue(false);
     }
 
     /**

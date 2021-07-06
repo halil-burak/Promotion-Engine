@@ -1,3 +1,5 @@
+import com.promotion_engine.configuration.ConfigurationProperties;
+import com.promotion_engine.configuration.ExternalConfiguration;
 import com.promotion_engine.model.Cart;
 import com.promotion_engine.model.Product;
 import com.promotion_engine.util.PriceList;
